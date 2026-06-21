@@ -1,0 +1,9 @@
+warehouse_code,warehouse_name,country_code
+WH-VILNIUS-01,Vilnius Main Logistics Hub,LT
+WH-KAUNAS-02,Kaunas Electronics Store,LT
+WH-RIGA-01,Riga Central Warehouse,LV
+WH-TALLINN-01,Tallinn Nord Hub,EE
+WH-WARSAW-01,Warsaw East Distribution,PL
+WH-BERLIN-01,Berlin Central Fulfillment,DE
+WH-FRANKFURT-02,Frankfurt Tech Logistics,DE
+WH-LONDON-01,London South Depot,GB

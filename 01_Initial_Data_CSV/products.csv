@@ -1,0 +1,45 @@
+product_sku,product_name,base_price,category_slug
+SKU-PS5-BASE,PlayStation 5 Console,499.99,gaming-consoles
+SKU-XBOX-X,Xbox Series X,499.99,gaming-consoles
+SKU-SWITCH-OLED,Nintendo Switch OLED,349.99,gaming-consoles
+SKU-PS5-PRO,PlayStation 5 Pro,799.99,gaming-consoles
+SKU-RTX-4070,ASUS GeForce RTX 4070,649.99,gaming-components
+SKU-RYZEN-7,AMD Ryzen 7 7800X3D,399.99,gaming-components
+SKU-RTX-4080,MSI GeForce RTX 4080 Super,1199.99,gaming-components
+SKU-RYZEN-9,AMD Ryzen 9 7950X3D,649.99,gaming-components
+SKU-CP2077,Cyberpunk 2077 Ultimate Edition,59.99,video-games
+SKU-ELDEN,Elden Ring,59.99,video-games
+SKU-BG3,Baldur's Gate 3,69.99,video-games
+SKU-GTA6,Grand Theft Auto VI,79.99,video-games
+SKU-METRO-EX,Metro Exodus Enhanced,39.99,video-games
+SKU-WITCHER3,"The Witcher 3, Wild Hunt",29.99,video-games
+SKU-GPRO-X,Logitech G Pro X Superlight 2,139.99,gaming-mice
+SKU-DA-V3,Razer DeathAdder V3 Pro,149.99,gaming-mice
+SKU-VIPER-V3,Razer Viper V3 Pro,159.99,gaming-mice
+SKU-ZOWIE-EC2,Zowie EC2-C Gaming Mouse,79.99,gaming-mice
+SKU-APEX-PRO,SteelSeries Apex Pro TKL,199.99,mechanical-keyboards
+SKU-HUNTSMAN,Razer Huntsman V3 Pro TKL,219.99,mechanical-keyboards
+SKU-ROG-AZOTH,ASUS ROG Azoth Keyboard,249.99,mechanical-keyboards
+SKU-ARCTIS-7,SteelSeries Arctis 7+ Wireless,179.99,gaming-headsets
+SKU-GPRO-H,Logitech G Pro X 2 LightSpeed,249.99,gaming-headsets
+SKU-HYPERX-ALF,HyperX Cloud Alpha Wireless,169.99,gaming-headsets
+SKU-XBOX-S,Xbox Series S,299.99,gaming-consoles
+SKU-STEAM-DK,Steam Deck OLED 512GB,549.00,gaming-consoles
+SKU-ROG-ALLY,ASUS ROG Ally X,799.00,gaming-consoles
+SKU-RTX-4060,Gigabyte GeForce RTX 4060,299.99,gaming-components
+SKU-INTEL-147K,Intel Core i7-14700K,419.99,gaming-components
+SKU-RAM-COR-32,Corsair Vengeance 32GB DDR5,119.99,gaming-components
+SKU-SSD-SAM-2,Samsung 990 Pro 2TB SSD,169.99,gaming-components
+SKU-D4-DIA,Diablo IV,69.99,video-games
+SKU-HOGW-LEG,Hogwarts Legacy,59.99,video-games
+SKU-COD-MW3,"Call of Duty, Modern Warfare III",69.99,video-games
+SKU-STARF,Starfield,69.99,video-games
+SKU-MOUSE-LOG-G502,Logitech G502 HERO,49.99,gaming-mice
+SKU-MOUSE-RAZ-BAS,Razer Basilisk V3,69.99,gaming-mice
+SKU-KB-LOG-G915,Logitech G915 LIGHTSPEED,229.99,mechanical-keyboards
+SKU-KB-KEY-K2,Keychron K2 Wireless,89.99,mechanical-keyboards
+SKU-HS-RAZ-BLAK,Razer BlackShark V2 Pro,179.99,gaming-headsets
+SKU-HS-LOG-G733,Logitech G733 K/DA,129.99,gaming-headsets
+SKU-MON-LG-27,LG UltraGear 27" 144Hz,299.99,gaming-consoles
+SKU-MON-ASUS-32,ASUS ROG Strix 32" 4K,799.99,gaming-consoles
+SKU-MOUSE-STEEL-RIVAL,SteelSeries Rival 3,29.99,gaming-mice
