@@ -36,12 +36,6 @@ SELECT
 FROM generate_series('2020-01-01'::DATE, '2026-12-31'::DATE, '1 day'::INTERVAL) datum
 WHERE NOT EXISTS (SELECT 1 FROM dim_calendar tc WHERE tc.date_key = datum);
 
-INSERT INTO dim_warehouses (warehouse_code, warehouse_name, country_name)
-SELECT w.warehouse_code, w.warehouse_name, co.country_name
-FROM oltp_src.warehouses w
-JOIN oltp_src.countries co ON w.country_code = co.country_code
-WHERE NOT EXISTS (SELECT 1 FROM dim_warehouses tw WHERE tw.warehouse_code = w.warehouse_code);
-
 INSERT INTO dim_customers (customer_email, full_name, country_name)
 SELECT c.customer_email, c.first_name || ' ' || c.last_name, co.country_name
 FROM oltp_src.customers c
@@ -53,21 +47,33 @@ SELECT DISTINCT category_name
 FROM oltp_src.categories src
 WHERE NOT EXISTS (SELECT 1 FROM dim_categories tc WHERE tc.category_name = src.category_name);
 
+UPDATE dim_products dp
+SET is_current = FALSE,
+    end_date = CURRENT_DATE
+FROM oltp_src.products src
+WHERE dp.product_sku = src.product_sku
+  AND dp.is_current = TRUE
+  AND dp.base_price <> src.base_price;
+
 INSERT INTO dim_products (product_sku, product_name, base_price, start_date, end_date, is_current)
 SELECT 
     src.product_sku, 
     src.product_name, 
     src.base_price, 
-    '2020-01-01'::DATE, 
+    CURRENT_DATE, 
     '9999-12-31'::DATE, 
     TRUE
 FROM oltp_src.products src
-WHERE NOT EXISTS (SELECT 1 FROM dim_products target WHERE target.product_sku = src.product_sku);
+WHERE NOT EXISTS (
+    SELECT 1 FROM dim_products target 
+    WHERE target.product_sku = src.product_sku 
+      AND target.is_current = TRUE
+);
 
 INSERT INTO bridge_product_category (product_sk, category_id)
 SELECT dp.product_sk, dc.category_id
 FROM oltp_src.products op
-JOIN dim_products dp ON op.product_sku = dp.product_sku
+JOIN dim_products dp ON op.product_sku = dp.product_sku AND dp.is_current = TRUE
 JOIN oltp_src.categories oc ON op.category_slug = oc.category_slug
 JOIN dim_categories dc ON oc.category_name = dc.category_name
 WHERE NOT EXISTS (
@@ -75,43 +81,17 @@ WHERE NOT EXISTS (
     WHERE tbc.product_sk = dp.product_sk AND tbc.category_id = dc.category_id
 );
 
-WITH ranked_stock AS (
-    SELECT 
-        product_sku, 
-        warehouse_code,
-        ROW_NUMBER() OVER(PARTITION BY product_sku ORDER BY quantity DESC) as rn
-    FROM oltp_src.stock
-)
-INSERT INTO fact_sales (order_number, date_key, customer_email, product_sk, warehouse_code, quantity_sold, price_per_item, total_revenue)
+INSERT INTO fact_sales (order_number, date_key, customer_email, product_sk, quantity_sold, total_revenue)
 SELECT 
     o.order_number,
     o.order_date::DATE,
     o.customer_email,
     dp.product_sk,
-    COALESCE(rs.warehouse_code, 'UNKNOWN'),
-    oi.quantity_ordered,
-    oi.price_per_item,
-    (oi.quantity_ordered * oi.price_per_item)
+    1,
+    dp.base_price
 FROM oltp_src.orders o
-JOIN oltp_src.order_items oi ON o.order_number = oi.order_number
-JOIN dim_products dp ON oi.product_sku = dp.product_sku
-LEFT JOIN ranked_stock rs ON oi.product_sku = rs.product_sku AND rs.rn = 1
+JOIN dim_products dp ON dp.is_current = TRUE
 WHERE NOT EXISTS (
     SELECT 1 FROM fact_sales fs 
     WHERE fs.order_number = o.order_number AND fs.product_sk = dp.product_sk
-);
-
-INSERT INTO fact_inventory (date_key, warehouse_code, product_sk, quantity_on_hand)
-SELECT 
-    CURRENT_DATE AS date_key,
-    s.warehouse_code,
-    dp.product_sk,
-    s.quantity
-FROM oltp_src.stock s
-JOIN dim_products dp ON s.product_sku = dp.product_sku
-WHERE NOT EXISTS (
-    SELECT 1 FROM fact_inventory fi 
-    WHERE fi.date_key = CURRENT_DATE 
-      AND fi.warehouse_code = s.warehouse_code 
-      AND fi.product_sk = dp.product_sk
 );

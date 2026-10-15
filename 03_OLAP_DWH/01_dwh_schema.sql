@@ -1,9 +1,7 @@
 DROP TABLE IF EXISTS fact_sales CASCADE;
-DROP TABLE IF EXISTS fact_inventory CASCADE;
 DROP TABLE IF EXISTS bridge_product_category CASCADE;
 DROP TABLE IF EXISTS dim_categories CASCADE;
 DROP TABLE IF EXISTS dim_products CASCADE;
-DROP TABLE IF EXISTS dim_warehouses CASCADE;
 DROP TABLE IF EXISTS dim_customers CASCADE;
 DROP TABLE IF EXISTS dim_calendar CASCADE;
 
@@ -14,12 +12,6 @@ CREATE TABLE dim_calendar (
     month_number INT,
     month_name VARCHAR(20),
     day_of_week INT
-);
-
-CREATE TABLE dim_warehouses (
-    warehouse_code VARCHAR(50) PRIMARY KEY,
-    warehouse_name VARCHAR(150),
-    country_name VARCHAR(100)
 );
 
 CREATE TABLE dim_customers (
@@ -55,16 +47,6 @@ CREATE TABLE fact_sales (
     date_key DATE REFERENCES dim_calendar(date_key),
     customer_email VARCHAR(100) REFERENCES dim_customers(customer_email),
     product_sk INT REFERENCES dim_products(product_sk),
-    warehouse_code VARCHAR(50) REFERENCES dim_warehouses(warehouse_code),
     quantity_sold INT,
-    price_per_item NUMERIC(10, 2),
     total_revenue NUMERIC(10, 2)
-);
-
-CREATE TABLE fact_inventory (
-    inventory_id SERIAL PRIMARY KEY,
-    date_key DATE REFERENCES dim_calendar(date_key),
-    warehouse_code VARCHAR(50) REFERENCES dim_warehouses(warehouse_code),
-    product_sk INT REFERENCES dim_products(product_sk),
-    quantity_on_hand INT
 );
